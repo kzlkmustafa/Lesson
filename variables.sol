@@ -5,7 +5,6 @@ pragma solidity ^0.8.12;
 contract variables{
 
     uint256 public myNumber; //default = 0
-    //public'ten bahset
     function setMyNumber(uint256 _mynumber) public { //fonksiyon ismi değişkenle aynı olamaz
         myNumber = _mynumber;
     }
@@ -53,19 +52,19 @@ contract variables{
      */
 
     
-    uint public finalCase;
+    uint public finalCase; //ogrencinin final notu
 
     function setFinalCase(uint _finalCase) public{
         finalCase = _finalCase;
     }
 
-    uint public comeLesson; 
+    uint public comeLesson; // ogrencinin derse katılım yüzdesi
 
     function setComeLesson(uint _comeLesson) public{
         comeLesson = _comeLesson;
     }
 
-    function setCertificate() public view returns(string memory){
+    function setCertificate() public view returns(string memory){ //ogrencinin sertifikasının alıp alamayacağını belirler
         
         if(finalCase >80 && comeLesson >50){
             return "can get a certificate";
