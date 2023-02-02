@@ -2,6 +2,8 @@
 
 pragma solidity ^0.8.12;
 
+//bir para gönderme kontratı yazalım
+
 contract SendMoney{
 
     uint public balanceReceived; // alınan bakiye
@@ -11,7 +13,7 @@ contract SendMoney{
     }
 
     function getBalance() public view returns(uint){
-        return address(this).balance; // this kastedmek 
+        return address(this).balance; // this kastedmek (bu kontratın içindeki bakiyeyi)
     }
 
     function takeMoney() public{
@@ -24,4 +26,38 @@ contract SendMoney{
         _to.transfer(this.getBalance());
         
     }
+
+    //bunlar yazıldıktın sonra contructor yapısına giriş yap
+    //biz bu kontrat içindeki parayı gönderirken kontratın tanımasını istiyoruz
+
+    address public owner;
+
+    constructor(){ //akıllı kontratlar ilk yayınlanırken çalışırlar 
+        owner = msg.sender;
+    }
+
+    
+    //daha sonra takemoney to içine aşağıdakini yaz
+
+    function takeMoneyToa(address payable _to) public{
+        require(!paused, "Akilli kontrat durduruldu!");
+        require(msg.sender == owner, "Akilli kontratin sahibi degilsiniz!"); 
+        _to.transfer(this.getBalance());
+    }
+
+    //kontratı durdurma yapısı
+    bool public paused;
+
+    function setPaused(bool _paused) public{
+        require(msg.sender == owner, "Akilli kontratin sahibi degilsiniz");
+        paused = _paused;
+    }
+
+    //kendini imha etme şuanda solidity içinde çalışmıyor
+
+    function destroy(address payable to) public{
+        selfdestruct(to);
+    }
+
+
 }
